@@ -19,29 +19,29 @@ class SignFormView(FormView):
             range(22, 32), range(21, 32), range(19, 32), range(21, 32), range(21, 32), range(21, 32),
             range(21, 32), range(23, 32), range(23, 32), range(23, 32), range(23, 32), range(22, 32)
         )
+
         self.each_sign_second_month_days = (
             range(1, 21), range(1, 19), range(1, 21), range(1, 21), range(1, 21), range(1, 21),
             range(1, 23), range(1, 23), range(1, 23), range(1, 23), range(1, 22), range(1, 22)
         )
+
         self.each_sign_first_month = (12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+
         self.each_sign_second_month = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 
         self.signs: tuple = (
             'Capricórnio', 'Aquário', 'Peixes', 'Aries', 'Touro', 'Gêmeos',
             'Câncer', 'Leão', 'Virgem', 'Libra', 'Escorpião', 'Sagitário'
         )
-        # self.signs: tuple = (
-        #     'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini',
-        #     'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Saggitarius'
-        # )
-        if len(self.db) > 0:
-            self.last_input = self.get_last_object_data()
+
+        if len(self.db) != 0:
+            self.the_input = self.get_last_object_data()
             self.last_input_array = self.last_object_split_data()
             self.birthday_datetime = self.generate_birthday_datatime()
             self.person_age_in_days = self.calculate_lifetime()
             self.person_sign = self.find_sign()
         else:
-            self.last_input = '01/01/2000'
+            self.the_input = '01/01/2000'
             self.last_input_array = {'day': 1, 'month': 1, 'year': 2000}
             self.birthday_datetime = self.generate_birthday_datatime()
             self.person_age_in_days = self.calculate_lifetime()
@@ -71,7 +71,7 @@ class SignFormView(FormView):
         return last_input
 
     def last_object_split_data(self) -> dict:
-        last_object_array = [int(number) for number in self.last_input.split('/')]
+        last_object_array = [int(number) for number in self.the_input.split('/')]
         return {
             'day': last_object_array[0],
             'month': last_object_array[1],
@@ -115,23 +115,11 @@ class SignFormView(FormView):
 
                 return self.signs[index]
 
-    def config_report(self):
-        return {
-            'birthdate': self.birthday,
-            'age_in_days':  self.person_age_in_days,
-            'sign': self.person_sign
-        }
-
-    def wipe_database(self):
-        self.db.delete()
-
     def get_context_data(self, **kwargs):
         context = super(SignFormView, self).get_context_data(**kwargs)
         context['db'] = self.db
-        context['last_input'] = self.last_input
-        context['last_input_array'] = self.last_input_array
-        context['birthday_datetime'] = self.birthday_datetime
-        context['person_age_in_days'] = self.person_age_in_days
+        context['birthday'] = self.the_input
+        context['age_in_days'] = self.person_age_in_days
         context['person_sign'] = self.person_sign
         return context
 

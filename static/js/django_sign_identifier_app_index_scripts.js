@@ -1,6 +1,6 @@
 
 
-document.body.style.backgroundColor = '#222'
+document.body.style.border = '#222 solid 1px'
 
 function rgb() {
   const inks = [...Array(256).keys()]
@@ -32,11 +32,14 @@ function blinkingBoxShadow({delay}) {
 }
 
 function assignSignToImg({djangoContextVar}) {
-  signs.forEach(function(value, i) {
-    if (djangoContextVar.textContent === signs[i]) {
-      signImgEl.setAttribute('src', `${signsImg[i]}`)
-    }
-  })
+
+  if (djangoContextVar.textContent != '') {
+    signs.forEach(function(value, i) {
+      if (djangoContextVar.textContent === signs[i]) {
+        signImgEl.setAttribute('src', `${signsImg[i]}`)
+      }
+    })
+  }
 }
 
 let signs = [

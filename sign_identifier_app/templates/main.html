@@ -7,10 +7,11 @@
     <meta charset="UTF-8">
     <meta content="ie-edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{% block page-title %}{% endblock %}</title>
+    {% block title %} {% endblock %}
+    {% block css %} {% endblock %}
 </head>
 <body>
-  {% block content %}
+  {% block body %}
 
   {% endblock %}
 </body>
